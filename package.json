@@ -16,6 +16,9 @@
   },
   "homepage": "https://github.com/GabrielGhimici/advent-of-code-2019#readme",
   "dependencies": {
-    "math.js": "^1.1.45"
+    "mathjs": "^6.2.5"
+  },
+  "devDependencies": {
+    "@types/mathjs": "^6.0.2"
   }
 }
