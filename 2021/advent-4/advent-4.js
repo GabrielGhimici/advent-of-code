@@ -29,7 +29,7 @@ readInterface.on("close", () => {
   );
   console.log(
     "Second response: ",
-    conputeResult(computeBingo(boards, generatedNumbers))
+    conputeResult(computeSecondBingo(boards, generatedNumbers))
   );
 });
 
@@ -46,6 +46,7 @@ function generateBoardMaps(boards) {
 }
 
 function conputeResult(boardData) {
+  console.log(boardData);
   let sumOfUnmarked = 0;
   for (let r = 0; r < boardData.boardMap.length; r++) {
     for (let c = 0; c < boardData.boardMap[0].length; c++) {
@@ -80,6 +81,28 @@ function computeFirstBingo(boards, input) {
   }
 }
 
+function computeSecondBingo(boards, input) {
+  const boardMaps = generateBoardMaps(boards);
+  for (let i = 0; i < input.length; i++) {
+    for (let index = 0; index < boards.length; index++) {
+      for (let r = 0; r < board.length; r++) {
+        for (let c = 0; c < board[0].length; c++) {
+          if (boards[index][r][c] === input[i]) {
+            boardMaps[index][r][c] = 1;
+          }
+        }
+      }
+      if (allBoardsDone(boardMaps)) {
+        return {
+          boardIndex: index,
+          boardMap: boardMaps[index],
+          inputNumber: input[i],
+        };
+      }
+    }
+  }
+}
+
 function getFirstBoardWithBingo(boardMaps) {
   for (let i = 0; i < boardMaps.length; i++) {
     if (checkIfBingo(boardMaps[i])) {
@@ -109,4 +132,14 @@ function checkIfBingo(boardMap) {
     }
   }
   return bingoOnRow || bingoOnColumn;
+}
+
+function allBoardsDone(boardMaps) {
+  let allDone = true;
+  for (let i = 0; i < boardMaps.length; i++) {
+    if (!checkIfBingo(boardMaps[i])) {
+      allDone = false;
+    }
+  }
+  return allDone;
 }
