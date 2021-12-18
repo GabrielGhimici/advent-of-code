@@ -16,11 +16,11 @@ readInterface.on("close", () => {
   const maxTable = getMaxBoundaries(clouds);
   board = generateBoard(maxTable);
   populateBoard(clouds, "straight");
-  displayBoard(board);
+  //displayBoard(board);
   console.log("First response: ", determineResult(board));
   board = generateBoard(maxTable);
   populateBoard(clouds, "all");
-  displayBoard(board);
+  //displayBoard(board);
   console.log("Second response: ", determineResult(board));
 });
 
