@@ -46,11 +46,7 @@ function computeFuelConsumed(positions, position, constant) {
     return positions
       .map((value) => {
         const difference = Math.abs(value - position);
-        let fuelConsumed = Array.from(
-          { length: difference + 1 },
-          (_, i) => i
-        ).reduce((acc, value) => acc + value, 0);
-        return fuelConsumed;
+        return (difference * (difference + 1)) / 2;
       })
       .reduce((acc, value) => acc + value, 0);
   }
