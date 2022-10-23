@@ -1,1 +1,1 @@
-console.log("this is typescript MOFO");
+console.log('this is typescript MOFO');
