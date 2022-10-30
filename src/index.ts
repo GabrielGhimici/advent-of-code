@@ -4,7 +4,7 @@ import { ListContext, listItems } from './core/list-items';
 
 import * as _2021 from './2021';
 
-const years: Record<string, Record<string, Record<string, any>>> = {
+const years: Record<string, Record<string, Record<string, () => Promise<unknown>>>> = {
   '2021': _2021,
 };
 
