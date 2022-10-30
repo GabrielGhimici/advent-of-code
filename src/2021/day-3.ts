@@ -1,5 +1,5 @@
 import { createReadInterface, linesToList } from '../core/read-input';
-import { BitValue, BitsValueCount, ReportItem } from './types/day-3';
+import type { BitValue, BitsValueCount, ReportItem } from './types/day-3';
 
 async function getInputData() {
   const rawList = await linesToList(createReadInterface(`2021/day-3`));

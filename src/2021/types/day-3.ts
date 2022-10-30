@@ -6,4 +6,4 @@ interface BitsValueCount {
   1: number;
 }
 
-export { ReportItem, BitsValueCount, BitValue };
+export type { ReportItem, BitsValueCount, BitValue };
