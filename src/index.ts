@@ -66,7 +66,7 @@ async function runMenu() {
     const { restart } = await prompts({
       type: 'confirm',
       name: 'restart',
-      message: 'Do you want to try another day?',
+      message: 'Do you want to run another day?',
       initial: true,
     });
     running = restart;
