@@ -1,3 +1,4 @@
+import dotenv from 'dotenv';
 import prompts from 'prompts';
 
 import { ListContext, listItems } from './core/list-items';
@@ -8,7 +9,22 @@ const years: Record<string, Record<string, Record<string, () => Promise<unknown>
   '2021': _2021,
 };
 
-//prompts.override({ year: 2021, day: 'day_1', dayFunction: ['measurementIncreases', 'groupedMeasurementIncreases'] });
+dotenv.config();
+
+if (process.env.DEV_MODE === 'enabled') {
+  const { YEAR, DAY, F1, F2 } = process.env;
+  const computeFs = () => {
+    if (!F1 && !F2) return [];
+    if (!F1 && F2) return [F2];
+    if (F1 && !F2) return [F1];
+    return [F1, F2];
+  };
+  prompts.override({
+    year: YEAR,
+    day: DAY,
+    dayFunction: computeFs(),
+  });
+}
 
 async function getAnswers(): Promise<{ year: string; day: string; dayFunction: Array<string> }> {
   const yearDirs = listItems(`${__dirname}`);
@@ -66,7 +82,7 @@ async function runMenu() {
     const { restart } = await prompts({
       type: 'confirm',
       name: 'restart',
-      message: 'Do you want to run another day?',
+      message: 'Do you want to try another day?',
       initial: true,
     });
     running = restart;

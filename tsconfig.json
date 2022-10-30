@@ -9,7 +9,7 @@
     "esModuleInterop": true,
     "moduleResolution": "node",
     "module": "CommonJS",
-    "sourceMap": true,
+    "sourceMap": false,
     "alwaysStrict": true,
     "allowUnreachableCode": false,
     "noImplicitAny": true,
@@ -17,5 +17,5 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true
   },
-  "include": ["./src/**/*"]
+  "include": ["./src/**/*", "./environments.d.ts"]
 }
