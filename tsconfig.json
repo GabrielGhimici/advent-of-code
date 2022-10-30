@@ -8,17 +8,14 @@
     "baseUrl": "./",
     "esModuleInterop": true,
     "moduleResolution": "node",
+    "module": "CommonJS",
     "sourceMap": true,
     "alwaysStrict": true,
     "allowUnreachableCode": false,
     "noImplicitAny": true,
     "strictNullChecks": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "paths": {
-      "@core/*": ["src/core/*"],
-      "@2021/*": ["src/2021/*"]
-    }
+    "noUnusedParameters": true
   },
-  "include": ["./src/**/*.ts"]
+  "include": ["./src/**/*"]
 }
