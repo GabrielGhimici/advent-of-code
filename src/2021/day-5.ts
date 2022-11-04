@@ -1,5 +1,6 @@
 import { createReadInterface, linesToList } from '../core/read-input';
-import { Board, DiffResult, Line, Point, ResultContext } from './types/day-5';
+import { Line, Point, ResultContext } from './models/day-5';
+import { Board, DiffResult } from './types/day-5';
 
 async function getInputData() {
   const rawList = await linesToList(createReadInterface(`2021/day-5`));
