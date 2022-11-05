@@ -2,7 +2,7 @@ import { createReadInterface, linesToList } from '../core/read-input';
 
 async function getInputData() {
   const rawList = await linesToList(createReadInterface(`2021/day-6`));
-  return rawList.map((item: string) => item.split(',').map(Number));
+  return rawList.map((item: string) => item.split(',').map(Number))[0];
 }
 const newIntervalLength = 8;
 const resetIntervalLength = 6;
@@ -26,12 +26,12 @@ function computeResult(inputList: Array<number>, dayLimit: number): number {
 
 async function lanternfishAfter80() {
   const list = await getInputData();
-  return computeResult(list[0], 80);
+  return computeResult(list, 80);
 }
 
 async function lanternfishAfter256() {
   const list = await getInputData();
-  return computeResult(list[0], 256);
+  return computeResult(list, 256);
 }
 
 export { lanternfishAfter80, lanternfishAfter256 };

@@ -4,3 +4,4 @@ export * as day_3 from './day-3';
 export * as day_4 from './day-4';
 export * as day_5 from './day-5';
 export * as day_6 from './day-6';
+export * as day_7 from './day-7';
