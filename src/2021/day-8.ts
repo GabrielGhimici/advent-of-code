@@ -1,5 +1,5 @@
 import { createReadInterface, linesToList } from '../core/read-input';
-import { DigitConfig, DigitSegmentsCount, InputEntry } from './models/day-8';
+import { DigitSegmentsCount, InputEntry } from './models/day-8';
 import { Digit } from './types/day-8';
 
 async function getInputData() {
@@ -14,40 +14,64 @@ function computeDigitSegments(digits: Array<Digit>) {
 }
 
 function decodeOutput(entry: InputEntry) {
-  const digitConfig = new DigitConfig();
-  const importantDigits = entry.signalPatterns.filter((pattern) =>
-    [1, 7, 4].map((item) => DigitSegmentsCount[item]).includes(pattern.length)
-  );
-  importantDigits
-    .sort((first, second) => {
-      return first.length - second.length;
-    })
-    .forEach((pattern) => {
-      const digit = DigitSegmentsCount.indexOf(pattern.length);
-      const positions = digitConfig.getPositionsByDigit(digit as Digit);
-      const emptyPositions = positions.filter((position) => digitConfig.isPositionEmpty(position));
-      const remainingPattern = pattern.split('').filter((letter) => !digitConfig.isPatternLetterPresent(letter));
+  const digitMap = Array(10).fill(Array(0));
+  const sortedPatternInput = entry.signalPatterns
+    .map((pattern) => pattern.split('').sort())
+    .sort((first, second) => first.length - second.length);
 
-      emptyPositions.forEach((position, index) => {
-        digitConfig.setPosition(position, remainingPattern[index]);
-      });
-    });
-  entry.signalPatterns
-    .filter((pattern) => !importantDigits.includes(pattern))
-    .sort((first, second) => {
-      return first.length - second.length;
-    })
+  sortedPatternInput
+    .filter((pattern) => [2, 3, 4, 7].includes(pattern.length))
     .forEach((pattern) => {
-      const remainingPattern = pattern.split('').filter((letter) => !digitConfig.isPatternLetterPresent(letter));
-      if (remainingPattern.length === 1 && digitConfig.isPositionEmpty([4, 1])) {
-        digitConfig.setPosition([4, 1], remainingPattern[0]);
-      } else if (remainingPattern.length === 1 && digitConfig.isPositionEmpty([3, 0])) {
-        digitConfig.setPosition([3, 0], remainingPattern[0]);
+      digitMap[DigitSegmentsCount.indexOf(pattern.length)] = pattern;
+    });
+
+  sortedPatternInput
+    .filter((pattern) => pattern.length === 6)
+    .forEach((pattern) => {
+      const combined7and4 = [...new Set([...digitMap[4], ...digitMap[7]])].sort();
+      if (patternDifference(pattern, combined7and4).length === 1) {
+        digitMap[9] = pattern;
+      } else if (patternDifference(digitMap[1], patternDifference(digitMap[8], pattern)).length === 1) {
+        digitMap[6] = pattern;
+      } else {
+        digitMap[0] = pattern;
       }
     });
-  digitConfig.display();
-  console.log(entry.output.map((output) => digitConfig.getDigitByConfig(output)));
-  return entry.output.map((output) => digitConfig.getDigitByConfig(output)).join('');
+
+  sortedPatternInput
+    .filter((pattern) => pattern.length === 5)
+    .forEach((pattern) => {
+      const combinedPatternWith1 = [...new Set([...pattern, ...digitMap[1]])].sort();
+      if (patternDifference(digitMap[9], combinedPatternWith1).length === 0) {
+        digitMap[5] = pattern;
+      } else if (patternDifference(digitMap[4], pattern).length === 2) {
+        digitMap[2] = pattern;
+      } else {
+        digitMap[3] = pattern;
+      }
+    });
+  const output = entry.output
+    .map((item) => item.split('').sort())
+    .map((item) => {
+      return digitMap.findIndex((digitConfig) => eqPattern(item, digitConfig));
+    })
+    .join('');
+  return output;
+}
+
+function eqPattern(arr1: Array<string>, arr2: Array<string>) {
+  if (arr1.length !== arr2.length) return false;
+  return arr1.reduce((equal, item, index) => equal && item === arr2[index], true);
+}
+
+function patternDifference(first: Array<string>, second: Array<string>) {
+  const difference: Array<string> = [];
+  first.forEach((element) => {
+    if (!second.includes(element)) {
+      difference.push(element);
+    }
+  });
+  return difference;
 }
 
 function getNumberOfDigits(input: Array<InputEntry>, digits: Array<Digit>) {
